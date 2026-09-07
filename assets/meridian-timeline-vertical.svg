@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1740" width="1240" height="1740" font-family="Arial, Helvetica, sans-serif">
+<rect width="1240" height="1740" fill="#FBFAF8"/>
+<text x="1210" y="52" text-anchor="end" font-size="30" font-weight="bold" fill="#1A1A1A">Meridian Energy Ltd — ציר זמן האירוע</text>
+<text x="1210" y="84" text-anchor="end" font-size="17" fill="#555">13/08/2026 22:41 עד 14/08/2026 10:00 · כל השעות ב-UTC</text>
+<text x="1210" y="110" text-anchor="end" font-size="16" fill="#A8322D" font-weight="bold">winevent מדווח ב-UTC+3 והומר ידנית · כל שאר המקורות ב-UTC</text>
+<text x="1210" y="136" text-anchor="end" font-size="15" fill="#666">כל שורה מסומנת בטכניקת MITRE ATT&amp;CK המתאימה לה</text>
+<rect x="60" y="190" width="1090" height="140" fill="#8B5A2B" opacity="0.05"/>
+<rect x="60" y="190" width="6" height="140" fill="#8B5A2B" opacity="0.75"/>
+<text x="76" y="212" text-anchor="start" font-size="15" font-weight="bold" fill="#8B5A2B" opacity="0.85">כניסה</text>
+<rect x="60" y="350" width="1090" height="140" fill="#8B6914" opacity="0.05"/>
+<rect x="60" y="350" width="6" height="140" fill="#8B6914" opacity="0.75"/>
+<text x="76" y="372" text-anchor="start" font-size="15" font-weight="bold" fill="#8B6914" opacity="0.85">מיפוי והשתלטות</text>
+<rect x="60" y="510" width="1090" height="140" fill="#7A5C99" opacity="0.05"/>
+<rect x="60" y="510" width="6" height="140" fill="#7A5C99" opacity="0.75"/>
+<text x="76" y="532" text-anchor="start" font-size="15" font-weight="bold" fill="#7A5C99" opacity="0.85">גניבת אישורים</text>
+<rect x="60" y="670" width="1090" height="220" fill="#2E6DA4" opacity="0.05"/>
+<rect x="60" y="670" width="6" height="220" fill="#2E6DA4" opacity="0.75"/>
+<text x="76" y="692" text-anchor="start" font-size="15" font-weight="bold" fill="#2E6DA4" opacity="0.85">תנועה רוחבית ואיסוף</text>
+<rect x="60" y="910" width="1090" height="140" fill="#1F7A6B" opacity="0.05"/>
+<rect x="60" y="910" width="6" height="140" fill="#1F7A6B" opacity="0.75"/>
+<text x="76" y="932" text-anchor="start" font-size="15" font-weight="bold" fill="#1F7A6B" opacity="0.85">הוצאת מידע</text>
+<rect x="60" y="1070" width="1090" height="540" fill="#A8322D" opacity="0.05"/>
+<rect x="60" y="1070" width="6" height="540" fill="#A8322D" opacity="0.75"/>
+<text x="76" y="1092" text-anchor="start" font-size="15" font-weight="bold" fill="#A8322D" opacity="0.85">פגיעה</text>
+<text x="990" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">vpn</text>
+<line x1="990" y1="178" x2="990" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<text x="830" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">winevent  (+3)</text>
+<line x1="830" y1="178" x2="830" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<text x="670" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">weblog</text>
+<line x1="670" y1="178" x2="670" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<text x="510" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">fileaudit</text>
+<line x1="510" y1="178" x2="510" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<text x="350" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">cloudaudit</text>
+<line x1="350" y1="178" x2="350" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<text x="190" y="162" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">backup</text>
+<line x1="190" y1="178" x2="190" y2="1670" stroke="#D5D0C8" stroke-width="2"/>
+<line x1="1145" y1="178" x2="1150" y2="1670" stroke="#BBB" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="1200" y="226" text-anchor="end" font-size="17" font-weight="bold" fill="#444">22:41</text>
+<circle cx="990" cy="220" r="9" fill="#8B5A2B"/>
+<circle cx="990" cy="220" r="15" fill="none" stroke="#8B5A2B" stroke-width="1.5" opacity="0.35"/>
+<text x="964" y="218" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">התחברות VPN מרומניה</text>
+<text x="964" y="238" text-anchor="end" font-size="14" fill="#666">d.aviram · 194.63.180.117 · ללא MFA</text>
+<text x="964" y="257" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B5A2B" opacity="0.9">T1078.002 · Valid Accounts</text>
+<text x="1200" y="306" text-anchor="end" font-size="17" font-weight="bold" fill="#444">22:52</text>
+<path d="M 990 220 C 990 254, 830 266, 830 300" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="300" r="9" fill="#8B5A2B"/>
+<circle cx="830" cy="300" r="15" fill="none" stroke="#8B5A2B" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="298" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4624 סוג 10 · WKS-OPS-03</text>
+<text x="804" y="318" text-anchor="end" font-size="14" fill="#666">כניסה מרחוק לעמדה (‎+3 מתורגם)</text>
+<text x="804" y="337" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B5A2B" opacity="0.9">T1133 · External Remote Services</text>
+<text x="1200" y="386" text-anchor="end" font-size="17" font-weight="bold" fill="#444">22:58</text>
+<path d="M 830 300 C 830 334, 830 346, 830 380" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="380" r="9" fill="#8B6914"/>
+<circle cx="830" cy="380" r="15" fill="none" stroke="#8B6914" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="378" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4688 · פקודות מיפוי</text>
+<text x="804" y="398" text-anchor="end" font-size="14" fill="#666">whoami · net group · nltest · net view</text>
+<text x="804" y="417" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B6914" opacity="0.9">T1087.002 · T1018 · T1482</text>
+<text x="1200" y="466" text-anchor="end" font-size="17" font-weight="bold" fill="#444">23:30</text>
+<path d="M 830 380 C 830 414, 670 426, 670 460" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="670" cy="460" r="9" fill="#8B6914"/>
+<circle cx="670" cy="460" r="15" fill="none" stroke="#8B6914" stroke-width="1.5" opacity="0.35"/>
+<text x="644" y="458" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">POST אל upload.aspx</text>
+<text x="644" y="478" text-anchor="end" font-size="14" fill="#666">194.63.180.204 · 200 · WebShell</text>
+<text x="644" y="497" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B6914" opacity="0.9">T1505.003 · Web Shell</text>
+<text x="1200" y="546" text-anchor="end" font-size="17" font-weight="bold" fill="#444">00:14</text>
+<path d="M 670 460 C 670 494, 830 506, 830 540" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="540" r="9" fill="#7A5C99"/>
+<circle cx="830" cy="540" r="15" fill="none" stroke="#7A5C99" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="538" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4769 · 63 בקשות כרטיס</text>
+<text x="804" y="558" text-anchor="end" font-size="14" fill="#666">21 שירותים · Kerberoasting</text>
+<text x="804" y="577" text-anchor="end" font-size="12.5" font-weight="bold" fill="#7A5C99" opacity="0.9">T1558.003 · Kerberoasting</text>
+<text x="1200" y="626" text-anchor="end" font-size="17" font-weight="bold" fill="#444">00:52</text>
+<path d="M 830 540 C 830 574, 830 586, 830 620" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="620" r="9" fill="#7A5C99"/>
+<circle cx="830" cy="620" r="15" fill="none" stroke="#7A5C99" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="618" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">1116 · Defender</text>
+<text x="804" y="638" text-anchor="end" font-size="14" fill="#666">HackTool CredDump · dmp64.exe</text>
+<text x="804" y="657" text-anchor="end" font-size="12.5" font-weight="bold" fill="#7A5C99" opacity="0.9">T1003 · OS Credential Dumping</text>
+<text x="1200" y="706" text-anchor="end" font-size="17" font-weight="bold" fill="#444">02:20</text>
+<path d="M 830 620 C 830 654, 830 666, 830 700" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="700" r="9" fill="#2E6DA4"/>
+<circle cx="830" cy="700" r="15" fill="none" stroke="#2E6DA4" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="698" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4624 סוג 10 · SRV-FS-01</text>
+<text x="804" y="718" text-anchor="end" font-size="14" fill="#666">y.shaked · תנועה רוחבית ב-RDP</text>
+<text x="804" y="737" text-anchor="end" font-size="12.5" font-weight="bold" fill="#2E6DA4" opacity="0.9">T1021.001 · Remote Desktop Protocol</text>
+<text x="1200" y="786" text-anchor="end" font-size="17" font-weight="bold" fill="#444">03:05</text>
+<path d="M 830 700 C 830 734, 510 746, 510 780" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="510" cy="780" r="9" fill="#2E6DA4"/>
+<circle cx="510" cy="780" r="15" fill="none" stroke="#2E6DA4" stroke-width="1.5" opacity="0.35"/>
+<text x="484" y="778" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">840 קריאות קבצים</text>
+<text x="484" y="798" text-anchor="end" font-size="14" fill="#666">SRV-FS-01 · 3.20GB · עד 03:54</text>
+<text x="484" y="817" text-anchor="end" font-size="12.5" font-weight="bold" fill="#2E6DA4" opacity="0.9">T1039 · Data from Network Shared Drive</text>
+<text x="1200" y="866" text-anchor="end" font-size="17" font-weight="bold" fill="#444">04:10</text>
+<path d="M 510 780 C 510 814, 830 826, 830 860" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="860" r="9" fill="#2E6DA4"/>
+<circle cx="830" cy="860" r="15" fill="none" stroke="#2E6DA4" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="858" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4688 · 7z.exe</text>
+<text x="804" y="878" text-anchor="end" font-size="14" fill="#666">SRV-FS-01 · אין שורת פקודה</text>
+<text x="804" y="897" text-anchor="end" font-size="12.5" font-weight="bold" fill="#2E6DA4" opacity="0.9">T1560.001 · Archive via Utility</text>
+<text x="1200" y="946" text-anchor="end" font-size="17" font-weight="bold" fill="#444">04:48</text>
+<path d="M 830 860 C 830 894, 350 906, 350 940" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="350" cy="940" r="9" fill="#1F7A6B"/>
+<circle cx="350" cy="940" r="15" fill="none" stroke="#1F7A6B" stroke-width="1.5" opacity="0.35"/>
+<text x="376" y="938" text-anchor="start" font-size="17" font-weight="bold" fill="#1A1A1A">שיתוף ענן ללא תפוגה</text>
+<text x="376" y="958" text-anchor="start" font-size="14" fill="#666">anyone_with_link · ops-transfer</text>
+<text x="376" y="977" text-anchor="start" font-size="12.5" font-weight="bold" fill="#1F7A6B" opacity="0.9">T1567.002 · Exfiltration to Cloud Storage</text>
+<text x="1200" y="1026" text-anchor="end" font-size="17" font-weight="bold" fill="#444">04:52</text>
+<path d="M 350 940 C 350 974, 350 986, 350 1020" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="350" cy="1020" r="9" fill="#1F7A6B"/>
+<circle cx="350" cy="1020" r="15" fill="none" stroke="#1F7A6B" stroke-width="1.5" opacity="0.35"/>
+<text x="376" y="1018" text-anchor="start" font-size="17" font-weight="bold" fill="#1A1A1A">העלאת 4 ארכיוני 7z</text>
+<text x="376" y="1038" text-anchor="start" font-size="14" fill="#666">1.32GB · עד 05:07</text>
+<text x="376" y="1057" text-anchor="start" font-size="12.5" font-weight="bold" fill="#1F7A6B" opacity="0.9">T1567.002 · Exfiltration to Cloud Storage</text>
+<text x="1200" y="1106" text-anchor="end" font-size="17" font-weight="bold" fill="#444">05:24</text>
+<path d="M 350 1020 C 350 1054, 830 1066, 830 1100" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="1100" r="9" fill="#A8322D"/>
+<circle cx="830" cy="1100" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="1098" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4624 סוג 3 · SRV-BKP-01</text>
+<text x="804" y="1118" text-anchor="end" font-size="14" fill="#666">d.aviram · שרת הגיבוי</text>
+<text x="804" y="1137" text-anchor="end" font-size="12.5" font-weight="bold" fill="#A8322D" opacity="0.9">T1021.002 · SMB/Windows Admin Shares</text>
+<text x="1200" y="1186" text-anchor="end" font-size="17" font-weight="bold" fill="#444">05:30</text>
+<path d="M 830 1100 C 830 1134, 190 1146, 190 1180" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="190" cy="1180" r="9" fill="#A8322D"/>
+<circle cx="190" cy="1180" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="216" y="1178" text-anchor="start" font-size="17" font-weight="bold" fill="#1A1A1A">מחיקת NIGHTLY-FULL</text>
+<text x="216" y="1198" text-anchor="start" font-size="14" fill="#666">actor: d.aviram · 0 קבצים · 0GB</text>
+<text x="216" y="1217" text-anchor="start" font-size="12.5" font-weight="bold" fill="#A8322D" opacity="0.9">T1490 · Inhibit System Recovery</text>
+<text x="1200" y="1266" text-anchor="end" font-size="17" font-weight="bold" fill="#444">05:58</text>
+<path d="M 190 1180 C 190 1214, 830 1226, 830 1260" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="830" cy="1260" r="9" fill="#A8322D"/>
+<circle cx="830" cy="1260" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="804" y="1258" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4624 סוג 3 · SRV-BILLING</text>
+<text x="804" y="1278" text-anchor="end" font-size="14" fill="#666">y.shaked · שרת החיוב</text>
+<text x="804" y="1297" text-anchor="end" font-size="12.5" font-weight="bold" fill="#A8322D" opacity="0.9">T1021.002 · SMB/Windows Admin Shares</text>
+<text x="1200" y="1346" text-anchor="end" font-size="17" font-weight="bold" fill="#444">06:12</text>
+<path d="M 830 1260 C 830 1294, 510 1306, 510 1340" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="510" cy="1340" r="9" fill="#A8322D"/>
+<circle cx="510" cy="1340" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="484" y="1338" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">9,412 שינויי שם</text>
+<text x="484" y="1358" text-anchor="end" font-size="14" fill="#666">סיומת mrdn. · עד 06:38</text>
+<text x="484" y="1377" text-anchor="end" font-size="12.5" font-weight="bold" fill="#A8322D" opacity="0.9">T1486 · Data Encrypted for Impact</text>
+<text x="1200" y="1426" text-anchor="end" font-size="17" font-weight="bold" fill="#444">06:40</text>
+<path d="M 510 1340 C 510 1374, 510 1386, 510 1420" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="510" cy="1420" r="9" fill="#A8322D"/>
+<circle cx="510" cy="1420" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="484" y="1418" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">HOW_TO_RESTORE.txt</text>
+<text x="484" y="1438" text-anchor="end" font-size="14" fill="#666">1,834 בתים · פתק כופר</text>
+<text x="484" y="1457" text-anchor="end" font-size="12.5" font-weight="bold" fill="#A8322D" opacity="0.9">T1486 · Data Encrypted for Impact</text>
+<text x="1200" y="1506" text-anchor="end" font-size="17" font-weight="bold" fill="#444">07:04</text>
+<path d="M 510 1420 C 510 1454, 670 1466, 670 1500" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="670" cy="1500" r="9" fill="#A8322D"/>
+<circle cx="670" cy="1500" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="644" y="1498" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">503 ראשון ללקוח</text>
+<text x="644" y="1518" text-anchor="end" font-size="14" fill="#666">הפורטל מפסיק להגיב</text>
+<text x="644" y="1537" text-anchor="end" font-size="12.5" font-weight="bold" fill="#999" opacity="0.9">תוצאה, לא טכניקה</text>
+<text x="1200" y="1586" text-anchor="end" font-size="17" font-weight="bold" fill="#444">10:00</text>
+<path d="M 670 1500 C 670 1534, 670 1546, 670 1580" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
+<circle cx="670" cy="1580" r="9" fill="#A8322D"/>
+<circle cx="670" cy="1580" r="15" fill="none" stroke="#A8322D" stroke-width="1.5" opacity="0.35"/>
+<text x="644" y="1578" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">בדיקת curl שגרתית · 503</text>
+<text x="644" y="1598" text-anchor="end" font-size="14" fill="#666">כל 6 שעות · הפעם נכשלה</text>
+<text x="644" y="1617" text-anchor="end" font-size="12.5" font-weight="bold" fill="#999" opacity="0.9">תוצאה, לא טכניקה</text>
+<rect x="1120" y="620" width="5" height="720" fill="#A8322D"/>
+<rect x="1114" y="617" width="17" height="6" fill="#A8322D"/>
+<rect x="1114" y="1337" width="17" height="6" fill="#A8322D"/>
+<rect x="900" y="956.0" width="212" height="48" rx="6" fill="#A8322D" opacity="0.10"/>
+<text x="1100" y="977.0" text-anchor="end" font-size="16" font-weight="bold" fill="#A8322D">‎5 שעות ו-20 דקות</text>
+<text x="1100" y="997.0" text-anchor="end" font-size="14" fill="#A8322D">מהתראת Defender ועד ההצפנה</text>
+<text x="1210" y="1710" text-anchor="end" font-size="14" fill="#777">כל שורה מסומנת במקור הלוג שלה, בטכניקת MITRE, ובפאזה · שורות winevent הומרו מ-UTC+3 ל-UTC</text>
+</svg>

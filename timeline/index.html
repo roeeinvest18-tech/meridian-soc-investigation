@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Meridian Energy Ltd — ציר זמן האירוע</title>
+<style>
+  :root{
+    --bg:#FBFAF8; --ink:#1A1A1A; --grey:#666; --grey2:#999; --line:#D5D0C8;
+    --accent:#A8322D;
+    --p-entry:#8B5A2B; --p-recon:#8B6914; --p-cred:#7A5C99;
+    --p-lateral:#2E6DA4; --p-exfil:#1F7A6B; --p-impact:#A8322D;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif;
+    padding:32px 24px 80px;
+  }
+  .wrap{max-width:1180px; margin:0 auto;}
+  h1{font-size:26px; margin:0 0 4px; text-align:left;}
+  .meta{color:var(--grey); font-size:14px; margin:0 0 4px; text-align:left;}
+  .meta.warn{color:var(--accent); font-weight:bold;}
+  .meta.hint{color:var(--grey); font-size:13px;}
+  .ltr{direction:ltr; unicode-bidi:isolate; font-family:"Consolas","Courier New",monospace;}
+  svg{width:100%; height:auto; display:block; margin-top:18px;}
+  .lane-label{font-size:14px; font-weight:bold; fill:#333;}
+  .lane-line{stroke:var(--line); stroke-width:2;}
+  .band-label{font-size:13px; font-weight:bold; opacity:0.85;}
+  .link{stroke:#9A948B; stroke-width:1.4; fill:none; opacity:0.6;}
+  .node{cursor:pointer;}
+  .node:hover circle.dot{stroke-width:3;}
+  .node:hover .node-title{fill:var(--accent);}
+  .dot{transition:stroke-width .12s;}
+  .time-label{font-size:15px; font-weight:bold; fill:#444;}
+  .node-title{font-size:15px; font-weight:bold; fill:#1A1A1A; transition:fill .12s;}
+  .node-sub{font-size:12.5px; fill:#666;}
+  .node-mitre{font-size:11px; font-weight:bold; font-family:"Consolas","Courier New",monospace;}
+
+  /* modal */
+  .backdrop{
+    position:fixed; inset:0; background:rgba(20,16,14,0.55);
+    display:none; align-items:center; justify-content:center; z-index:50;
+    padding:24px;
+  }
+  .backdrop.open{display:flex;}
+  .modal{
+    background:#fff; width:100%; max-width:640px; max-height:86vh; overflow-y:auto;
+    border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    position:relative; padding:0;
+  }
+  .modal-bar{height:6px; border-radius:8px 8px 0 0;}
+  .modal-body{padding:22px 26px 26px;}
+  .modal-close{
+    position:absolute; top:14px; left:16px; border:none; background:none;
+    font-size:22px; line-height:1; color:var(--grey); cursor:pointer; padding:4px;
+  }
+  .modal-close:hover{color:var(--ink);}
+  .modal-time{font-size:14px; font-weight:bold; color:var(--grey); margin:0 0 2px;}
+  .modal-title{font-size:21px; font-weight:bold; margin:0 0 10px;}
+  .modal-badges{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{
+    font-size:12px; font-family:"Consolas","Courier New",monospace; direction:ltr;
+    padding:3px 9px; border-radius:4px; font-weight:bold; display:inline-block;
+  }
+  .badge-source{background:#F2F0ED; color:#444;}
+  .badge-ref{background:#F2F0ED; color:#444;}
+  .modal-detail{font-size:15px; line-height:1.65; margin:0 0 16px;}
+  .modal-section-label{font-size:12px; font-weight:bold; color:var(--grey); margin:0 0 6px;}
+  .modal-query{
+    background:#1E1B18; color:#E8E3DC; font-family:"Consolas","Courier New",monospace;
+    font-size:12.5px; direction:ltr; text-align:left; padding:10px 12px; border-radius:5px;
+    overflow-x:auto; white-space:pre; margin:0 0 16px;
+  }
+  .img-slot{
+    border:1.5px dashed var(--line); border-radius:6px; min-height:130px;
+    display:flex; align-items:center; justify-content:center; color:var(--grey2);
+    font-size:13px; text-align:center; padding:16px;
+  }
+  .img-slot img{width:100%; border-radius:5px; display:block;}
+  .footer-note{text-align:left; color:#777; font-size:12.5px; margin-top:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Meridian Energy Ltd — ציר זמן האירוע</h1>
+  <p class="meta">כל השעות ב-UTC · 13/08/2026 22:41 עד 14/08/2026 10:00</p>
+  <p class="meta warn"><span class="ltr">winevent</span> מדווח ב-<span class="ltr">UTC+3</span> והומר ידנית · כל שאר המקורות ב-<span class="ltr">UTC</span></p>
+  <p class="meta hint">לחצו על כל נקודה להרחבה, לשאילתה, ולתמונת הלוג</p>
+  <svg id="timelineSvg" viewBox="0 0 1240 1740" xmlns="http://www.w3.org/2000/svg"></svg>
+  <p class="footer-note">כל שורה מסומנת במקור הלוג, בטכניקת <span class="ltr">MITRE</span>, ובפאזה</p>
+</div>
+
+<div class="backdrop" id="backdrop">
+  <div class="modal">
+    <div class="modal-bar" id="modalBar"></div>
+    <button class="modal-close" id="modalClose" aria-label="סגור">×</button>
+    <div class="modal-body">
+      <p class="modal-time ltr" id="modalTime"></p>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-badges">
+        <span class="badge badge-source" id="modalSource"></span>
+        <span class="badge" id="modalMitre"></span>
+        <span class="badge badge-ref" id="modalRef"></span>
+      </div>
+      <p class="modal-detail" id="modalDetail"></p>
+      <p class="modal-section-label">שאילתה</p>
+      <pre class="modal-query" id="modalQuery"></pre>
+      <p class="modal-section-label">תמונת הלוג</p>
+      <div class="img-slot" id="modalImage">תמונת הלוג תתווסף כאן</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LANES = [
+  {key:"backup", x:190, label:"backup"},
+  {key:"cloudaudit", x:350, label:"cloudaudit"},
+  {key:"fileaudit", x:510, label:"fileaudit"},
+  {key:"weblog", x:670, label:"weblog"},
+  {key:"winevent", x:830, label:"winevent  (+3)"},
+  {key:"vpn", x:990, label:"vpn"}
+];
+const PHASE_COLOR = {
+  entry:"var(--p-entry)", recon:"var(--p-recon)", cred:"var(--p-cred)",
+  lateral:"var(--p-lateral)", exfil:"var(--p-exfil)", impact:"var(--p-impact)"
+};
+const PHASE_LABEL = {
+  entry:"כניסה", recon:"מיפוי והשתלטות", cred:"גניבת אישורים",
+  lateral:"תנועה רוחבית ואיסוף", exfil:"הוצאת מידע", impact:"פגיעה"
+};
+
+const EVENTS = [
+  {ref:"E-01", time:"22:41", lane:"vpn", phase:"entry",
+   title:"התחברות VPN מרומניה", sub:"d.aviram · 194.63.180.117 · ללא MFA",
+   mitre:"T1078.002 · Valid Accounts", source:"vpn",
+   detail:"התחברות VPN מוצלחת מהחשבון d.aviram, המסומן terminated מאז 19/06/2025, ללא MFA. זו הכניסה הראשונה הידועה לתקיפה. שדה ה-result מציג success ומשך הסשן 214 דקות. אין אף אירוע 4625 (כשל התחברות) לחשבון הזה בכל 90 הימים, כך שלא ניתן לקבוע כיצד הושגו האישורים.",
+   query:'index=meridian sourcetype=vpn result=success src_country!="IL"\n| table _time user src_ip src_country mfa session_min'},
+
+  {ref:"E-02", time:"22:52", lane:"winevent", phase:"entry",
+   title:"4624 סוג 10 · WKS-OPS-03", sub:"כניסה מרחוק לעמדה (+3 מתורגם)",
+   mitre:"T1133 · External Remote Services", source:"winevent (+3)",
+   detail:"אחת עשרה דקות אחרי הכניסה ל-VPN, נרשמת התחברות מרוחקת (RemoteInteractive) לעמדת העבודה WKS-OPS-03, מכתובת בריכת ה-VPN הפנימית 10.99.7.44. זו העמדה שממנה יצאו כל התנועות הרוחביות באירוע כולו.",
+   query:'index=meridian sourcetype=winevent EventCode=4624 host="WKS-OPS-03"\n| eval _time=_time-10800 | table _time logon_type src_host'},
+
+  {ref:"E-03", time:"22:58", lane:"winevent", phase:"recon",
+   title:"4688 · פקודות מיפוי", sub:"whoami · net group · nltest · net view",
+   mitre:"T1087.002 · T1018 · T1482", source:"winevent (+3)",
+   detail:"ארבע פקודות מובנות של מערכת ההפעלה: whoami /groups, net group \"Domain Admins\" /domain, nltest /dclist, net view /domain. אין קובץ שהורד ואין כלי מותאם — דפוס אופייני לתוקף שמנסה לא להשאיר עקבות של קובץ חדש.",
+   query:'index=meridian sourcetype=winevent EventCode=4688 host="WKS-OPS-03"\n| eval _time=_time-10800 | table _time cmdline'},
+
+  {ref:"E-04", time:"23:30", lane:"weblog", phase:"recon",
+   title:"POST אל upload.aspx", sub:"194.63.180.204 · 200 · WebShell",
+   mitre:"T1505.003 · Web Shell", source:"weblog",
+   detail:"בקשת POST יחידה מכתובת 194.63.180.204 (אותו /24 כמו כתובת ה-VPN) לנתיב שאינו מופיע באף בקשה אחרת מתוך 4,862 בקשות בקובץ. תגובה 200, 341 בתים. לא נמצאה אף בקשה עוקבת לאותו נתיב, כך שלא ניתן לקבוע אם קובץ שהועלה שם הורץ בפועל.",
+   query:'index=meridian sourcetype=weblog method=POST uri_path="/portal/upload.aspx"\n| table _time src_ip status bytes_out'},
+
+  {ref:"E-05", time:"00:14", lane:"winevent", phase:"cred",
+   title:"4769 · 63 בקשות כרטיס", sub:"21 שירותים · Kerberoasting",
+   mitre:"T1558.003 · Kerberoasting", source:"winevent (+3)",
+   detail:"63 בקשות כרטיס Kerberos מהחשבון d.aviram אל 21 שירותים שונים, בשלושה סבבים זהים בהפרשי 4-5 שניות. זהו דפוס Kerberoasting קלאסי, שמטרתו איסוף hash-ים לפיצוח לא מקוון.",
+   query:'index=meridian sourcetype=winevent EventCode=4769 actor="d.aviram"\n| stats count dc(target_account) as services min(_time) max(_time)'},
+
+  {ref:"E-06", time:"00:52", lane:"winevent", phase:"cred",
+   title:"1116 · Defender", sub:"HackTool CredDump · dmp64.exe",
+   mitre:"T1003 · OS Credential Dumping", source:"winevent (+3)",
+   detail:"Defender מזהה ומסווג את הקובץ dmp64.exe בנתיב C:\\Users\\Public כ-HackTool:Win32/CredDump.A. זהו אירוע 1116 היחיד בכל 90 הימים — השורה היחידה בערכה שבה מוצר אבטחה קבע בעצמו שמשהו זדוני, לעומת כל שאר האירועים שהם רישום ניטרלי. אין בערכה תור התראות, ולכן לא ניתן לקבוע אם הסיווג הגיע אי פעם לאדם.",
+   query:'index=meridian sourcetype=winevent EventCode=1116\n| table _time host actor process object_name'},
+
+  {ref:"E-07", time:"02:20", lane:"winevent", phase:"lateral",
+   title:"4624 סוג 10 · SRV-FS-01", sub:"y.shaked · תנועה רוחבית ב-RDP",
+   mitre:"T1021.001 · Remote Desktop Protocol", source:"winevent (+3)",
+   detail:"הופעה ראשונה של חשבון שני, y.shaked, שרשום עם MFA. ההתחברות היא RDP (סוג 10) ישירות לשרת הקבצים, ממקור WKS-OPS-03 — אותה עמדה שמופיעה בכל שלב באירוע.",
+   query:'index=meridian sourcetype=winevent EventCode=4624 host="SRV-FS-01" logon_type=10\n| eval _time=_time-10800 | table _time actor src_host'},
+
+  {ref:"E-08", time:"03:05", lane:"fileaudit", phase:"lateral",
+   title:"840 קריאות קבצים", sub:"SRV-FS-01 · 3.20GB · עד 03:54",
+   mitre:"T1039 · Data from Network Shared Drive", source:"fileaudit",
+   detail:"840 פעולות קריאה בהיקף כולל של 3.20GB מתוך SRV-FS-01, בתוך 49 דקות. זהו שלב האיסוף לפני ההוצאה מהארגון, וזה הקירוב הטוב ביותר שיש לנו למה שהודלף — לא רשימה מדויקת.",
+   query:'index=meridian sourcetype=fileaudit actor="y.shaked" action=read server="SRV-FS-01"\n| stats count sum(bytes_out) as total_bytes'},
+
+  {ref:"E-09", time:"04:10", lane:"winevent", phase:"lateral",
+   title:"4688 · 7z.exe", sub:"SRV-FS-01 · אין שורת פקודה",
+   mitre:"T1560.001 · Archive via Utility", source:"winevent (+3)",
+   detail:"הרצת 7z.exe על שרת הקבצים. שרתי הקבצים אינם רושמים שורת פקודה (בניגוד לעמדות עבודה), כך שלא ניתן לקבוע אילו קבצים בדיוק נדחסו, מאיפה ולאן.",
+   query:'index=meridian sourcetype=winevent EventCode=4688 process="7z.exe"\n| eval _time=_time-10800 | table _time host actor'},
+
+  {ref:"E-10", time:"04:48", lane:"cloudaudit", phase:"exfil",
+   title:"שיתוף ענן ללא תפוגה", sub:"anyone_with_link · אחד מ-61",
+   mitre:"T1567.002 · Exfiltration to Cloud Storage", source:"cloudaudit",
+   detail:"יצירת קישור שיתוף לתיקייה ops-transfer, בהיקף anyone_with_link וללא תאריך תפוגה. מתוך 61 שיתופים שנוצרו ב-90 הימים, זהו היחיד עם הצירוף הזה — 60 האחרים הם internal עם תפוגה מוגדרת.",
+   query:'index=meridian sourcetype=cloudaudit operation=share_link_create\n| stats count by link_scope link_expiry'},
+
+  {ref:"E-11", time:"04:52", lane:"cloudaudit", phase:"exfil",
+   title:"העלאת 4 ארכיוני 7z", sub:"1.32GB · עד 05:07",
+   mitre:"T1567.002 · Exfiltration to Cloud Storage", source:"cloudaudit",
+   detail:"ארבעה ארכיוני 7z בגדלים 372MB, 327MB, 342MB ו-282MB, סך הכל 1.32GB, הועלו לתיקיית השיתוף הפתוחה. תוכן הארכיונים אינו ידוע — הלוג שומר שם וגודל בלבד, לא רשימת קבצים.",
+   query:'index=meridian sourcetype=cloudaudit operation=upload actor="y.shaked"\n| table _time target_object bytes_out'},
+
+  {ref:"E-12", time:"05:24", lane:"winevent", phase:"impact",
+   title:"4624 סוג 3 · SRV-BKP-01", sub:"d.aviram · שרת הגיבוי",
+   mitre:"T1021.002 · SMB/Windows Admin Shares", source:"winevent (+3)",
+   detail:"d.aviram מתחבר לשרת הגיבוי, שש דקות לפני רשומת המחיקה. זו הפעם הראשונה שהחשבון הזה נוגע בשרת הגיבוי בכל 90 הימים.",
+   query:'index=meridian sourcetype=winevent EventCode=4624 host="SRV-BKP-01"\n| eval _time=_time-10800 | table _time actor logon_type'},
+
+  {ref:"E-13", time:"05:30", lane:"backup", phase:"impact",
+   title:"NIGHTLY-FULL · סטטוס DELETED", sub:"actor: d.aviram · 0 files · 0GB",
+   rawTitle:'<tspan direction="ltr">NIGHTLY-FULL · </tspan><tspan direction="rtl" unicode-bidi="embed">סטטוס</tspan><tspan direction="ltr"> DELETED</tspan>',
+   mitre:"T1490 · Inhibit System Recovery", source:"backup",
+   detail:"עבודת NIGHTLY-FULL מסומנת DELETED, actor=d.aviram — החשבון היחיד שאינו svc_backup מתוך 104 רשומות גיבוי. הרשומה מדווחת 0 קבצים ו-0.0GB, כלומר אינה מכמתת דבר: לא ניתן לקבוע ממנה אם נמחק משהו בפועל, ולא אם שרדה נקודת שחזור נקייה.",
+   query:'index=meridian sourcetype=backup status!=SUCCESS\n| table _time job_name target status files_count size_gb actor'},
+
+  {ref:"E-14", time:"05:58", lane:"winevent", phase:"impact",
+   title:"4624 סוג 3 · SRV-BILLING", sub:"y.shaked · שרת החיוב",
+   mitre:"T1021.002 · SMB/Windows Admin Shares", source:"winevent (+3)",
+   detail:"y.shaked מתחבר לשרת החיוב, 14 דקות לפני תחילת ההצפנה. זו נקודת המעבר האחרונה לפני הפגיעה העסקית.",
+   query:'index=meridian sourcetype=winevent EventCode=4624 host="SRV-BILLING"\n| eval _time=_time-10800 | table _time actor logon_type'},
+
+  {ref:"E-15", time:"06:12", lane:"fileaudit", phase:"impact",
+   title:"9,412 שינויי שם", sub:"סיומת mrdn. · עד 06:38",
+   mitre:"T1486 · Data Encrypted for Impact", source:"fileaudit",
+   detail:"9,412 פעולות rename, כולן על SRV-BILLING בלבד, כולן בהוספת סיומת כפולה .mrdn. לא נמצאה פעולת הצפנה דומה על אף שרת אחר, כולל SRV-FS-01 שממנו נקראו הקבצים בשלב האיסוף.",
+   query:'index=meridian sourcetype=fileaudit action=rename\n| stats count min(_time) max(_time) by server'},
+
+  {ref:"E-16", time:"06:40", lane:"fileaudit", phase:"impact",
+   title:"HOW_TO_RESTORE.txt", sub:"1.8KB · פתק כופר",
+   mitre:"T1486 · Data Encrypted for Impact", source:"fileaudit",
+   detail:"קובץ פתק כופר בגודל 1.8KB נכתב בשורש שיתוף החיוב, מיד אחרי סיום שינויי השם. זהו פתק יחיד בתיקייה אחת — לא הופץ על פני כל השיתופים שנפגעו.",
+   query:'index=meridian sourcetype=fileaudit object_path="*HOW_TO_RESTORE*"\n| table _time actor object_path bytes_out'},
+
+  {ref:"E-17", time:"07:04", lane:"weblog", phase:"impact",
+   title:"503 ראשון ללקוח", sub:"הפורטל מפסיק להגיב",
+   mitre:"תוצאה, לא טכניקה", source:"weblog", noTech:true,
+   detail:"הבקשה החיצונית הראשונה שמקבלת 503 מהפורטל. זהו הרגע שבו ההשפעה העסקית הופכת גלויה ללקוחות — כ-24 דקות בלבד אחרי תחילת ההצפנה.",
+   query:'index=meridian sourcetype=weblog status=503\n| stats min(_time) as first max(_time) as last count'},
+
+  {ref:"E-18", time:"10:00", lane:"weblog", phase:"impact",
+   title:"בדיקת curl שגרתית · 503", sub:"כל 6 שעות · הפעם נכשלה",
+   mitre:"תוצאה, לא טכניקה", source:"weblog", noTech:true,
+   detail:"בדיקת התקינות המתוזמנת, שרצה בהצלחה כל שש שעות (כולל ב-04:00 באותו בוקר), מחזירה 503 בפעם הראשונה. זה מאשר שהתקלה ברמת השירות ולא תקלת רשת חולפת.",
+   query:'index=meridian sourcetype=weblog src_ip="212.143.200.14"\n| table _time status'}
+];
+
+// ---- layout constants ----
+const TOP = 220, GAP = 80, LEFT_X = 60, RIGHT_X = 1150, LANE_TOP = 178, LANE_BOTTOM = 1670;
+
+function laneX(key){ return LANES.find(l=>l.key===key).x; }
+
+function buildSvg(){
+  const svg = document.getElementById("timelineSvg");
+  const parts = [];
+
+  // lane headers + rails
+  LANES.forEach(l=>{
+    parts.push(`<text class="lane-label" x="${l.x}" y="162" text-anchor="middle">${l.label}</text>`);
+    parts.push(`<line class="lane-line" x1="${l.x}" y1="${LANE_TOP}" x2="${l.x}" y2="${LANE_BOTTOM}"/>`);
+  });
+  parts.push(`<line x1="1145" y1="${LANE_TOP}" x2="1150" y2="${LANE_BOTTOM}" stroke="#BBB" stroke-width="1" stroke-dasharray="4 4"/>`);
+
+  // phase bands
+  let i=0;
+  while(i<EVENTS.length){
+    const ph = EVENTS[i].phase;
+    let j=i;
+    while(j<EVENTS.length && EVENTS[j].phase===ph) j++;
+    const y0 = TOP + i*GAP - 30, y1 = TOP + (j-1)*GAP + 30;
+    parts.push(`<rect x="${LEFT_X}" y="${y0}" width="1090" height="${y1-y0}" fill="${PHASE_COLOR[ph]}" opacity="0.05"/>`);
+    parts.push(`<rect x="${LEFT_X}" y="${y0}" width="6" height="${y1-y0}" fill="${PHASE_COLOR[ph]}" opacity="0.75"/>`);
+    parts.push(`<text class="band-label" x="${LEFT_X+16}" y="${y0+22}" fill="${PHASE_COLOR[ph]}">${PHASE_LABEL[ph]}</text>`);
+    i=j;
+  }
+
+  // connecting paths
+  for(let k=1;k<EVENTS.length;k++){
+    const a = EVENTS[k-1], b = EVENTS[k];
+    const ax=laneX(a.lane), ay=TOP+(k-1)*GAP, bx=laneX(b.lane), by=TOP+k*GAP;
+    parts.push(`<path class="link" d="M ${ax} ${ay} C ${ax} ${ay+34}, ${bx} ${by-34}, ${bx} ${by}"/>`);
+  }
+
+  // nodes
+  EVENTS.forEach((e,idx)=>{
+    const x = laneX(e.lane), y = TOP + idx*GAP;
+    const color = PHASE_COLOR[e.phase];
+    const rightSide = (e.lane==="backup" || e.lane==="cloudaudit");
+    const tx = rightSide ? x+26 : x-26;
+    const anchor = rightSide ? "start" : "end";
+    parts.push(`<text class="time-label" x="${RIGHT_X}" y="${y+6}" text-anchor="end">${e.time}</text>`);
+    parts.push(`
+      <g class="node" data-ref="${e.ref}" tabindex="0" role="button" aria-label="${e.title}">
+        <circle class="dot" cx="${x}" cy="${y}" r="9" fill="${color}"/>
+        <circle cx="${x}" cy="${y}" r="15" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.35"/>
+        <text class="node-title" x="${tx}" y="${y-2}" text-anchor="${anchor}"${e.rawTitle ? ' direction="ltr"' : ''}>${e.rawTitle ? e.rawTitle : e.title}</text>
+        <text class="node-sub" x="${tx}" y="${y+18}" text-anchor="${anchor}"${e.rawSub ? ' direction="ltr"' : ''}>${e.rawSub ? e.rawSub : e.sub}</text>
+        <text class="node-mitre" x="${tx}" y="${y+37}" text-anchor="${anchor}" fill="${e.noTech ? '#999' : color}" opacity="0.9">${e.mitre}</text>
+      </g>`);
+  });
+
+  svg.innerHTML = parts.join("\n");
+
+  svg.querySelectorAll(".node").forEach(n=>{
+    n.addEventListener("click", ()=>openModal(n.getAttribute("data-ref")));
+    n.addEventListener("keypress", (ev)=>{ if(ev.key==="Enter") openModal(n.getAttribute("data-ref")); });
+  });
+}
+
+function openModal(ref){
+  const e = EVENTS.find(ev=>ev.ref===ref);
+  if(!e) return;
+  document.getElementById("modalBar").style.background = PHASE_COLOR[e.phase];
+  document.getElementById("modalTime").textContent = e.time + " UTC";
+  document.getElementById("modalTitle").textContent = e.title;
+  document.getElementById("modalSource").textContent = "source: " + e.source;
+  document.getElementById("modalMitre").textContent = e.mitre;
+  document.getElementById("modalMitre").style.background = e.noTech ? "#EEE" : "#F2F0ED";
+  document.getElementById("modalMitre").style.color = e.noTech ? "#999" : PHASE_COLOR[e.phase];
+  document.getElementById("modalRef").textContent = e.ref;
+  document.getElementById("modalDetail").textContent = e.detail;
+  document.getElementById("modalQuery").textContent = e.query;
+  const imgSlot = document.getElementById("modalImage");
+  if(e.image){
+    imgSlot.innerHTML = `<img src="${e.image}" alt="לוג ${e.ref}">`;
+  } else {
+    imgSlot.innerHTML = "תמונת הלוג תתווסף כאן";
+  }
+  document.getElementById("backdrop").classList.add("open");
+}
+function closeModal(){ document.getElementById("backdrop").classList.remove("open"); }
+
+document.getElementById("modalClose").addEventListener("click", closeModal);
+document.getElementById("backdrop").addEventListener("click", (ev)=>{ if(ev.target.id==="backdrop") closeModal(); });
+document.addEventListener("keydown", (ev)=>{ if(ev.key==="Escape") closeModal(); });
+
+buildSvg();
+</script>
+</body>
+</html>

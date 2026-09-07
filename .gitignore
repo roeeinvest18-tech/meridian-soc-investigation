@@ -1,0 +1,29 @@
+# Internal / non-public working documents (excluded from this public portfolio repo)
+*team-brief*
+*team-brief*.docx
+final*project*.json
+ai-verification-log*.xlsx
+*SOC-Investigation-Report-Template*
+*SOC-Presentation-Template*
+
+# Raw case datasets / logs (never publish raw investigation data)
+*.csv
+*.pcap
+*.pcapng
+*.evtx
+*.log
+raw/
+raw-data/
+dataset/
+
+# Archives (source zips, not the extracted deliverables)
+*.zip
+*.7z
+*.rar
+
+# OS / editor junk
+Thumbs.db
+.DS_Store
+~$*
+*.tmp
+.vscode/
