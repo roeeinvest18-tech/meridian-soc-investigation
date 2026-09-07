@@ -21,6 +21,8 @@ dataset/
 *.7z
 *.rar
 
+presentations/
+
 # OS / editor junk
 Thumbs.db
 .DS_Store
