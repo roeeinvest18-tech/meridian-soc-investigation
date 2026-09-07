@@ -22,6 +22,7 @@ dataset/
 *.rar
 
 presentations/
+report/*.docx
 
 # OS / editor junk
 Thumbs.db

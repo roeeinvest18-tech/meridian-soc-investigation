@@ -4,7 +4,7 @@ A SOC (Security Operations Center) investigation report and incident timeline, p
 
 ## Contents
 
-- [`report/`](report/) — full written investigation report (`.docx`)
+- [`report/REPORT.md`](report/REPORT.md) — full written investigation report
 - [`presentations/`](presentations/) — final presentation decks (`.pptx`)
 - [`assets/`](assets/) — static timeline visual (vertical SVG)
 - [`timeline/`](timeline/) — interactive HTML incident timeline
