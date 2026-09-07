@@ -13,7 +13,7 @@ A SOC (Security Operations Center) investigation report and incident timeline, p
 
 The interactive timeline is published via GitHub Pages:
 
-**https://YOUR-USERNAME.github.io/meridian-soc-investigation/timeline/**
+**https://roeeinvest18-tech.github.io/meridian-soc-investigation/timeline/**
 
 ## Disclaimer
 
