@@ -1,20 +1,30 @@
-# Meridian SOC Investigation
+# Roee Nir | Meridian SOC Investigation
 
-A SOC (Security Operations Center) investigation report and incident timeline, produced as a security course capstone project. The scenario covers a simulated breach of a fictional company, "Meridian Energy Ltd," including initial access, credential theft, lateral movement, data exfiltration, and ransomware impact.
+A simulated team SOC capstone covering account misuse, suspicious Kerberos activity, lateral movement, cloud uploads, and ransomware indicators. The published work focuses on multi-source correlation, incident scoping, UTC timeline reconstruction, evidence limitations, and escalation recommendations.
 
-## Contents
+## My Contribution
 
-- [`report/REPORT.md`](report/REPORT.md) — full written investigation report
-- [`presentations/`](presentations/) — final presentation decks (`.pptx`)
-- [`assets/`](assets/) — static timeline visual (vertical SVG)
-- [`timeline/`](timeline/) — interactive HTML incident timeline
+I served as Case Lead, with responsibility for the executive summary, incident classification and severity assessment, incident timeline, and recommendations. I also contributed to contextual analysis, MITRE ATT&CK mapping, and detection-gap review.
 
-## Interactive Timeline
+## Review the Work
 
-The interactive timeline is published via GitHub Pages:
+| Artifact | What to review |
+| --- | --- |
+| [Analyst handover](report/HANDOVER.md) | Short case summary, key evidence, uncertainties, and requested next actions |
+| [Investigation report](report/REPORT.md) | Timeline, entities, findings, recommendations, recorded SPL, and evidence excerpts |
+| [Interactive timeline](https://roeeinvest18-tech.github.io/meridian-soc-investigation/timeline/) | Event sequence, source references, queries, and available report excerpts |
+| [Static timeline](assets/meridian-timeline-vertical.svg) | Overview of the reported incident sequence |
 
-**https://roeeinvest18-tech.github.io/meridian-soc-investigation/timeline/**
+## Evidence and Validation
+
+Seven selected evidence excerpts are included in the report. Full source logs, query-output exports, screenshots, and presentation decks are not published in this repository. The timeline displays only existing report excerpts; it does not invent screenshots or missing log rows.
+
+The report's queries were recorded for a training environment. Field semantics, time-zone handling, and output counts require source-dataset validation before reuse. Observed operations are distinguished from unique-file counts, encryption confirmation, and unverified response actions.
+
+## Related Work
+
+[SOC Tier 1 Portfolio](https://github.com/roeeinvest18-tech/soc-tier1-portfolio) — focused packet-analysis and SPL logic-review cases.
 
 ## Disclaimer
 
-This is a fictional case study created for educational purposes as part of a security course capstone project. All entities, hostnames, accounts, and events referenced are simulated and do not represent real organizations or incidents.
+This is a fictional educational scenario, not a live customer incident or production SOC employment. Entities, accounts, hosts, and events are simulated. Response actions are recommendations; no live containment or remediation is claimed.

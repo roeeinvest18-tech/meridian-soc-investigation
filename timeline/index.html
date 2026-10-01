@@ -2,6 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Meridian Energy Ltd — ציר זמן האירוע</title>
 <style>
   :root{
@@ -23,6 +24,11 @@
   .meta.hint{color:var(--grey); font-size:13px;}
   .ltr{direction:ltr; unicode-bidi:isolate; font-family:"Consolas","Courier New",monospace;}
   svg{width:100%; height:auto; display:block; margin-top:18px;}
+  .timeline-scroll{overflow-x:auto;}
+  @media(max-width:760px){body{padding:20px 12px 48px;} .timeline-scroll svg{min-width:1000px;} .backdrop{padding:12px;} .modal-body{padding:20px 18px;} }
+  nav{margin:12px 0; line-height:1.8;}
+  .evidence-excerpt{direction:ltr; text-align:left; white-space:pre-wrap; overflow-wrap:anywhere; font-family:Consolas,monospace; font-size:12px;}
+  a{color:#2E6DA4;}
   .lane-label{font-size:14px; font-weight:bold; fill:#333;}
   .lane-line{stroke:var(--line); stroke-width:2;}
   .band-label{font-size:13px; font-weight:bold; opacity:0.85;}
@@ -83,10 +89,12 @@
 <body>
 <div class="wrap">
   <h1>Meridian Energy Ltd — ציר זמן האירוע</h1>
+  <nav><a href="../">סקירת הפרויקט</a> · <a href="https://github.com/roeeinvest18-tech/meridian-soc-investigation/blob/main/report/REPORT.md">דוח החקירה</a> · <a href="https://github.com/roeeinvest18-tech/meridian-soc-investigation/blob/main/report/HANDOVER.md">כרטיס handover</a></nav>
+  <p class="meta">תרחיש לימודי מדומה · הממצאים והמספרים מדווחים מהחקירה המקורית, ללא הרצה חוזרת של נתוני המקור</p>
   <p class="meta">כל השעות ב-UTC · 13/08/2026 22:41 עד 14/08/2026 10:00</p>
   <p class="meta warn"><span class="ltr">winevent</span> מדווח ב-<span class="ltr">UTC+3</span> והומר ידנית · כל שאר המקורות ב-<span class="ltr">UTC</span></p>
-  <p class="meta hint">לחצו על כל נקודה להרחבה, לשאילתה, ולתמונת הלוג</p>
-  <svg id="timelineSvg" viewBox="0 0 1240 1740" xmlns="http://www.w3.org/2000/svg"></svg>
+  <p class="meta hint">לחצו על כל נקודה לפרטי האירוע, לשאילתה ולקטע ראיה שפורסם, אם קיים. שאילתות הזמן דורשות בדיקת parsing לפני שימוש.</p>
+  <div class="timeline-scroll"><svg id="timelineSvg" viewBox="0 0 1240 1740" xmlns="http://www.w3.org/2000/svg"></svg></div>
   <p class="footer-note">כל שורה מסומנת במקור הלוג, בטכניקת <span class="ltr">MITRE</span>, ובפאזה</p>
 </div>
 
@@ -105,13 +113,23 @@
       <p class="modal-detail" id="modalDetail"></p>
       <p class="modal-section-label">שאילתה</p>
       <pre class="modal-query" id="modalQuery"></pre>
-      <p class="modal-section-label">תמונת הלוג</p>
-      <div class="img-slot" id="modalImage">תמונת הלוג תתווסף כאן</div>
+      <p class="modal-section-label">ראיה שפורסמה בדוח</p>
+      <div class="img-slot" id="modalImage"></div>
     </div>
   </div>
 </div>
 
 <script>
+const EVIDENCE_EXCERPTS = {
+  "E-01": "2026-08-13 22:41:00, d.aviram, 194.63.180.117, RO, success, none, 214",
+  "E-05": "2026-08-14 03:14:09 (local), 4769, SRV-DC-01, d.aviram, WKS-OPS-03, cifs_svc, CIFS/SRV-FS-01.meridian.local  — one of 63",
+  "E-06": "2026-08-14 03:52:00 (local), 1116, WKS-OPS-03, d.aviram, C:\\Users\\Public\\dmp64.exe, HackTool:Win32/CredDump.A",
+  "E-10": "2026-08-14 04:48:00, y.shaked, share_link_create, /drive/Shared/ops-transfer/, anyone_with_link, none",
+  "E-13": "2026-08-14 05:30:00, NIGHTLY-FULL, SRV-BKP-01, DELETED, 0, 0.0, d.aviram",
+  "E-15": "2026-08-14 06:12:00, y.shaked, \\\\SRV-BILLING\\Billing\\2024\\Q3\\INV-377285.pdf.mrdn, rename, 0, WKS-OPS-03, SRV-BILLING  — one of 9,412",
+  "E-16": "2026-08-14 06:40:00, y.shaked, \\\\SRV-BILLING\\Billing\\HOW_TO_RESTORE.txt, write, 1834, WKS-OPS-03, SRV-BILLING"
+};
+
 const LANES = [
   {key:"backup", x:190, label:"backup"},
   {key:"cloudaudit", x:350, label:"cloudaudit"},
@@ -133,38 +151,38 @@ const EVENTS = [
   {ref:"E-01", time:"22:41", lane:"vpn", phase:"entry",
    title:"התחברות VPN מרומניה", sub:"d.aviram · 194.63.180.117 · ללא MFA",
    mitre:"T1078.002 · Valid Accounts", source:"vpn",
-   detail:"התחברות VPN מוצלחת מהחשבון d.aviram, המסומן terminated מאז 19/06/2025, ללא MFA. זו הכניסה הראשונה הידועה לתקיפה. שדה ה-result מציג success ומשך הסשן 214 דקות. אין אף אירוע 4625 (כשל התחברות) לחשבון הזה בכל 90 הימים, כך שלא ניתן לקבוע כיצד הושגו האישורים.",
+   detail:"התחברות VPN מוצלחת מהחשבון d.aviram, המסומן terminated מאז 19/06/2025, ללא MFA. זו הכניסה הראשונה המדווחת ברצף האירוע. שדה ה-result מציג success ומשך הסשן 214 דקות. אין אף אירוע 4625 (כשל התחברות) לחשבון הזה בכל 90 הימים, כך שלא ניתן לקבוע כיצד הושגו האישורים.",
    query:'index=meridian sourcetype=vpn result=success src_country!="IL"\n| table _time user src_ip src_country mfa session_min'},
 
   {ref:"E-02", time:"22:52", lane:"winevent", phase:"entry",
    title:"4624 סוג 10 · WKS-OPS-03", sub:"כניסה מרחוק לעמדה (+3 מתורגם)",
    mitre:"T1133 · External Remote Services", source:"winevent (+3)",
-   detail:"אחת עשרה דקות אחרי הכניסה ל-VPN, נרשמת התחברות מרוחקת (RemoteInteractive) לעמדת העבודה WKS-OPS-03, מכתובת בריכת ה-VPN הפנימית 10.99.7.44. זו העמדה שממנה יצאו כל התנועות הרוחביות באירוע כולו.",
+   detail:"אחת עשרה דקות אחרי הכניסה ל-VPN, נרשמת התחברות מרוחקת (RemoteInteractive) לעמדת העבודה WKS-OPS-03, מכתובת בריכת ה-VPN הפנימית 10.99.7.44. העמדה מופיעה כמקור להתחברויות הרוחביות המדווחות.",
    query:'index=meridian sourcetype=winevent EventCode=4624 host="WKS-OPS-03"\n| eval _time=_time-10800 | table _time logon_type src_host'},
 
   {ref:"E-03", time:"22:58", lane:"winevent", phase:"recon",
    title:"4688 · פקודות מיפוי", sub:"whoami · net group · nltest · net view",
    mitre:"T1087.002 · T1018 · T1482", source:"winevent (+3)",
-   detail:"ארבע פקודות מובנות של מערכת ההפעלה: whoami /groups, net group \"Domain Admins\" /domain, nltest /dclist, net view /domain. אין קובץ שהורד ואין כלי מותאם — דפוס אופייני לתוקף שמנסה לא להשאיר עקבות של קובץ חדש.",
+   detail:"ארבע פקודות מובנות של מערכת ההפעלה: whoami /groups, net group \"Domain Admins\" /domain, nltest /dclist, net view /domain. הפקודות אינן מוכיחות הורדת כלי נוסף — פעילות Discovery אפשרית; כוונה להימנע מהשארת קבצים אינה מוכחת מהפקודות לבדן.",
    query:'index=meridian sourcetype=winevent EventCode=4688 host="WKS-OPS-03"\n| eval _time=_time-10800 | table _time cmdline'},
 
   {ref:"E-04", time:"23:30", lane:"weblog", phase:"recon",
-   title:"POST אל upload.aspx", sub:"194.63.180.204 · 200 · WebShell",
-   mitre:"T1505.003 · Web Shell", source:"weblog",
-   detail:"בקשת POST יחידה מכתובת 194.63.180.204 (אותו /24 כמו כתובת ה-VPN) לנתיב שאינו מופיע באף בקשה אחרת מתוך 4,862 בקשות בקובץ. תגובה 200, 341 בתים. לא נמצאה אף בקשה עוקבת לאותו נתיב, כך שלא ניתן לקבוע אם קובץ שהועלה שם הורץ בפועל.",
+   title:"POST אל upload.aspx", sub:"194.63.180.204 · 200 · חשד לבדיקה",
+   mitre:"T1505.003 · Web Shell (suspected)", source:"weblog",
+   detail:"בקשת POST יחידה מכתובת 194.63.180.204 (אותו /24 כמו כתובת ה-VPN) לנתיב שאינו מופיע באף בקשה אחרת מתוך 4,862 בקשות בקובץ. תגובה 200, 341 בתים. ההערות המקוריות סותרות זו את זו בנוגע לבקשה עוקבת. POST עם תשובת 200 אינו מוכיח העלאת Web Shell או הרצה שלו; נדרשת בדיקת רצף הבקשות וממצאי המארח.",
    query:'index=meridian sourcetype=weblog method=POST uri_path="/portal/upload.aspx"\n| table _time src_ip status bytes_out'},
 
   {ref:"E-05", time:"00:14", lane:"winevent", phase:"cred",
-   title:"4769 · 63 בקשות כרטיס", sub:"21 שירותים · Kerberoasting",
+   title:"4769 · 63 בקשות כרטיס", sub:"21 יעדים · חשד ל-Kerberoasting",
    mitre:"T1558.003 · Kerberoasting", source:"winevent (+3)",
-   detail:"63 בקשות כרטיס Kerberos מהחשבון d.aviram אל 21 שירותים שונים, בשלושה סבבים זהים בהפרשי 4-5 שניות. זהו דפוס Kerberoasting קלאסי, שמטרתו איסוף hash-ים לפיצוח לא מקוון.",
-   query:'index=meridian sourcetype=winevent EventCode=4769 actor="d.aviram"\n| stats count dc(target_account) as services min(_time) max(_time)'},
+   detail:"63 בקשות כרטיס Kerberos מהחשבון d.aviram אל 21 יעדים מדווחים, בשלושה סבבים זהים בהפרשי 4-5 שניות. הדפוס תואם חשד ל-Kerberoasting. לא הוכח פיצוח כרטיסים; יש לאמת אם target_account מייצג חשבונות שירות או SPNs לפני פירוש הספירה.",
+   query:'index=meridian sourcetype=winevent EventCode=4769 actor="d.aviram"\n| eval _time=_time-10800 | stats count dc(target_account) as services min(_time) max(_time)'},
 
   {ref:"E-06", time:"00:52", lane:"winevent", phase:"cred",
    title:"1116 · Defender", sub:"HackTool CredDump · dmp64.exe",
    mitre:"T1003 · OS Credential Dumping", source:"winevent (+3)",
-   detail:"Defender מזהה ומסווג את הקובץ dmp64.exe בנתיב C:\\Users\\Public כ-HackTool:Win32/CredDump.A. זהו אירוע 1116 היחיד בכל 90 הימים — השורה היחידה בערכה שבה מוצר אבטחה קבע בעצמו שמשהו זדוני, לעומת כל שאר האירועים שהם רישום ניטרלי. אין בערכה תור התראות, ולכן לא ניתן לקבוע אם הסיווג הגיע אי פעם לאדם.",
-   query:'index=meridian sourcetype=winevent EventCode=1116\n| table _time host actor process object_name'},
+   detail:"Defender מזהה ומסווג את הקובץ dmp64.exe בנתיב C:\\Users\\Public כ-HackTool:Win32/CredDump.A. זהו אירוע 1116 היחיד בכל 90 הימים — זיהוי של מוצר אבטחה, שאינו מוכיח לבדו גניבת אישורים מוצלחת. אין בערכה תור התראות, ולכן לא ניתן לקבוע אם הסיווג הגיע אי פעם לאדם.",
+   query:'index=meridian sourcetype=winevent EventCode=1116\n| eval _time=_time-10800 | table _time host actor process object_name'},
 
   {ref:"E-07", time:"02:20", lane:"winevent", phase:"lateral",
    title:"4624 סוג 10 · SRV-FS-01", sub:"y.shaked · תנועה רוחבית ב-RDP",
@@ -175,7 +193,7 @@ const EVENTS = [
   {ref:"E-08", time:"03:05", lane:"fileaudit", phase:"lateral",
    title:"840 קריאות קבצים", sub:"SRV-FS-01 · 3.20GB · עד 03:54",
    mitre:"T1039 · Data from Network Shared Drive", source:"fileaudit",
-   detail:"840 פעולות קריאה בהיקף כולל של 3.20GB מתוך SRV-FS-01, בתוך 49 דקות. זהו שלב האיסוף לפני ההוצאה מהארגון, וזה הקירוב הטוב ביותר שיש לנו למה שהודלף — לא רשימה מדויקת.",
+   detail:"840 פעולות קריאה בהיקף מדווח של 3.20GB מתוך SRV-FS-01, בתוך 49 דקות. הספירה היא של פעולות, לא בהכרח קבצים ייחודיים. אין מיפוי מאומת בין הקריאות לתוכן הארכיונים שהועלו.",
    query:'index=meridian sourcetype=fileaudit actor="y.shaked" action=read server="SRV-FS-01"\n| stats count sum(bytes_out) as total_bytes'},
 
   {ref:"E-09", time:"04:10", lane:"winevent", phase:"lateral",
@@ -212,31 +230,31 @@ const EVENTS = [
   {ref:"E-14", time:"05:58", lane:"winevent", phase:"impact",
    title:"4624 סוג 3 · SRV-BILLING", sub:"y.shaked · שרת החיוב",
    mitre:"T1021.002 · SMB/Windows Admin Shares", source:"winevent (+3)",
-   detail:"y.shaked מתחבר לשרת החיוב, 14 דקות לפני תחילת ההצפנה. זו נקודת המעבר האחרונה לפני הפגיעה העסקית.",
+   detail:"y.shaked מתחבר לשרת החיוב, 14 דקות לפני תחילת שינויי השמות. ההתחברות קודמת לשינויי השמות; הקשר הסיבתי דורש בדיקה.",
    query:'index=meridian sourcetype=winevent EventCode=4624 host="SRV-BILLING"\n| eval _time=_time-10800 | table _time actor logon_type'},
 
   {ref:"E-15", time:"06:12", lane:"fileaudit", phase:"impact",
    title:"9,412 שינויי שם", sub:"סיומת mrdn. · עד 06:38",
    mitre:"T1486 · Data Encrypted for Impact", source:"fileaudit",
-   detail:"9,412 פעולות rename, כולן על SRV-BILLING בלבד, כולן בהוספת סיומת כפולה .mrdn. לא נמצאה פעולת הצפנה דומה על אף שרת אחר, כולל SRV-FS-01 שממנו נקראו הקבצים בשלב האיסוף.",
+   detail:"9,412 פעולות rename, כולן על SRV-BILLING בלבד, כולן בהוספת סיומת כפולה .mrdn. שינויי שם אינם מוכיחים כשלעצמם הצפנת תוכן או ספירה של קבצים ייחודיים. לא דווחו פעולות rename תואמות בשרתים אחרים; השפעה רחבה יותר אינה נשללת.",
    query:'index=meridian sourcetype=fileaudit action=rename\n| stats count min(_time) max(_time) by server'},
 
   {ref:"E-16", time:"06:40", lane:"fileaudit", phase:"impact",
    title:"HOW_TO_RESTORE.txt", sub:"1.8KB · פתק כופר",
    mitre:"T1486 · Data Encrypted for Impact", source:"fileaudit",
-   detail:"קובץ פתק כופר בגודל 1.8KB נכתב בשורש שיתוף החיוב, מיד אחרי סיום שינויי השם. זהו פתק יחיד בתיקייה אחת — לא הופץ על פני כל השיתופים שנפגעו.",
+   detail:"קובץ פתק כופר בגודל 1.8KB נכתב בשורש שיתוף החיוב, אחרי סיום שינויי השם. תוכן הפתק אינו מפורסם; אין להסיק מהשם בלבד את פרטי הדרישה.",
    query:'index=meridian sourcetype=fileaudit object_path="*HOW_TO_RESTORE*"\n| table _time actor object_path bytes_out'},
 
   {ref:"E-17", time:"07:04", lane:"weblog", phase:"impact",
    title:"503 ראשון ללקוח", sub:"הפורטל מפסיק להגיב",
    mitre:"תוצאה, לא טכניקה", source:"weblog", noTech:true,
-   detail:"הבקשה החיצונית הראשונה שמקבלת 503 מהפורטל. זהו הרגע שבו ההשפעה העסקית הופכת גלויה ללקוחות — כ-24 דקות בלבד אחרי תחילת ההצפנה.",
+   detail:"הבקשה החיצונית הראשונה שמקבלת 503 מהפורטל. תשובת 503 ראשונה המדווחת ללקוח חיצוני — 52 דקות אחרי תחילת שינויי השמות. זו עדות לאי-זמינות השירות; הסיבה אינה מוכחת מהתזמון בלבד.",
    query:'index=meridian sourcetype=weblog status=503\n| stats min(_time) as first max(_time) as last count'},
 
   {ref:"E-18", time:"10:00", lane:"weblog", phase:"impact",
    title:"בדיקת curl שגרתית · 503", sub:"כל 6 שעות · הפעם נכשלה",
    mitre:"תוצאה, לא טכניקה", source:"weblog", noTech:true,
-   detail:"בדיקת התקינות המתוזמנת, שרצה בהצלחה כל שש שעות (כולל ב-04:00 באותו בוקר), מחזירה 503 בפעם הראשונה. זה מאשר שהתקלה ברמת השירות ולא תקלת רשת חולפת.",
+   detail:"בדיקת התקינות המתוזמנת, שרצה בהצלחה כל שש שעות (כולל ב-04:00 באותו בוקר), מחזירה 503 בפעם הראשונה. תוצאת הבדיקה תומכת באי-זמינות הפורטל, אך אינה קובעת לבדה את מקור התקלה.",
    query:'index=meridian sourcetype=weblog src_ip="212.143.200.14"\n| table _time status'}
 ];
 
@@ -316,11 +334,12 @@ function openModal(ref){
   document.getElementById("modalDetail").textContent = e.detail;
   document.getElementById("modalQuery").textContent = e.query;
   const imgSlot = document.getElementById("modalImage");
-  if(e.image){
-    imgSlot.innerHTML = `<img src="${e.image}" alt="לוג ${e.ref}">`;
-  } else {
-    imgSlot.innerHTML = "תמונת הלוג תתווסף כאן";
-  }
+  imgSlot.replaceChildren();
+  const excerpt = EVIDENCE_EXCERPTS[e.ref];
+  const evidenceText = document.createElement(excerpt ? "pre" : "p");
+  evidenceText.className = excerpt ? "evidence-excerpt" : "";
+  evidenceText.textContent = excerpt || "קטע לוג גולמי לא פורסם לאירוע זה. הפרטים לעיל הם תיאור מהדוח; אינם צילום מסך או פלט מאומת.";
+  imgSlot.appendChild(evidenceText);
   document.getElementById("backdrop").classList.add("open");
 }
 function closeModal(){ document.getElementById("backdrop").classList.remove("open"); }

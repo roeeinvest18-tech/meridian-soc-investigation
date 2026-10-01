@@ -60,14 +60,14 @@
 <circle cx="670" cy="460" r="9" fill="#8B6914"/>
 <circle cx="670" cy="460" r="15" fill="none" stroke="#8B6914" stroke-width="1.5" opacity="0.35"/>
 <text x="644" y="458" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">POST אל upload.aspx</text>
-<text x="644" y="478" text-anchor="end" font-size="14" fill="#666">194.63.180.204 · 200 · WebShell</text>
-<text x="644" y="497" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B6914" opacity="0.9">T1505.003 · Web Shell</text>
+<text x="644" y="478" text-anchor="end" font-size="14" fill="#666">194.63.180.204 · 200 · חשד לבדיקה</text>
+<text x="644" y="497" text-anchor="end" font-size="12.5" font-weight="bold" fill="#8B6914" opacity="0.9">T1505.003 · Web Shell (suspected)</text>
 <text x="1200" y="546" text-anchor="end" font-size="17" font-weight="bold" fill="#444">00:14</text>
 <path d="M 670 460 C 670 494, 830 506, 830 540" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
 <circle cx="830" cy="540" r="9" fill="#7A5C99"/>
 <circle cx="830" cy="540" r="15" fill="none" stroke="#7A5C99" stroke-width="1.5" opacity="0.35"/>
 <text x="804" y="538" text-anchor="end" font-size="17" font-weight="bold" fill="#1A1A1A">4769 · 63 בקשות כרטיס</text>
-<text x="804" y="558" text-anchor="end" font-size="14" fill="#666">21 שירותים · Kerberoasting</text>
+<text x="804" y="558" text-anchor="end" font-size="14" fill="#666">21 יעדים · חשד ל-Kerberoasting</text>
 <text x="804" y="577" text-anchor="end" font-size="12.5" font-weight="bold" fill="#7A5C99" opacity="0.9">T1558.003 · Kerberoasting</text>
 <text x="1200" y="626" text-anchor="end" font-size="17" font-weight="bold" fill="#444">00:52</text>
 <path d="M 830 540 C 830 574, 830 586, 830 620" fill="none" stroke="#9A948B" stroke-width="1.6" opacity="0.65"/>
@@ -165,6 +165,6 @@
 <rect x="1114" y="1337" width="17" height="6" fill="#A8322D"/>
 <rect x="900" y="956.0" width="212" height="48" rx="6" fill="#A8322D" opacity="0.10"/>
 <text x="1100" y="977.0" text-anchor="end" font-size="16" font-weight="bold" fill="#A8322D">‎5 שעות ו-20 דקות</text>
-<text x="1100" y="997.0" text-anchor="end" font-size="14" fill="#A8322D">מהתראת Defender ועד ההצפנה</text>
+<text x="1100" y="997.0" text-anchor="end" font-size="14" fill="#A8322D">מזיהוי Defender לשינויי שמות</text>
 <text x="1210" y="1710" text-anchor="end" font-size="14" fill="#777">כל שורה מסומנת במקור הלוג שלה, בטכניקת MITRE, ובפאזה · שורות winevent הומרו מ-UTC+3 ל-UTC</text>
 </svg>
